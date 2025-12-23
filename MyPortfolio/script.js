@@ -16,8 +16,10 @@ document.addEventListener('DOMContentLoaded', function() {
     // Close menu when clicking a link
     document.querySelectorAll('.nav-link').forEach(link => {
         link.addEventListener('click', () => {
-            navMenu.classList.remove('active');
-            menuToggle.innerHTML = '<i class="fas fa-bars"></i>';
+            if (navMenu.classList.contains('active')) {
+                navMenu.classList.remove('active');
+                menuToggle.innerHTML = '<i class="fas fa-bars"></i>';
+            }
         });
     });
     
@@ -43,23 +45,69 @@ document.addEventListener('DOMContentLoaded', function() {
     // Smooth scrolling
     document.querySelectorAll('a[href^="#"]').forEach(anchor => {
         anchor.addEventListener('click', function(e) {
-            if (this.getAttribute('href') === '#') return;
-            
+            if (this.getAttribute('href') === '#' || this.getAttribute('href').startsWith('#')) {
+                e.preventDefault();
+                const targetId = this.getAttribute('href');
+                const targetElement = document.querySelector(targetId);
+                
+                if (targetElement) {
+                    window.scrollTo({
+                        top: targetElement.offsetTop - 100,
+                        behavior: 'smooth'
+                    });
+                }
+            }
+        });
+    });
+    
+    // Contact form submission
+    const contactForm = document.getElementById('contactForm');
+    if (contactForm) {
+        contactForm.addEventListener('submit', function(e) {
             e.preventDefault();
-            const targetId = this.getAttribute('href');
-            const targetElement = document.querySelector(targetId);
             
-            if (targetElement) {
-                window.scrollTo({
-                    top: targetElement.offsetTop - 100,
-                    behavior: 'smooth'
+            // Get form data
+            const formData = new FormData(this);
+            const data = Object.fromEntries(formData);
+            
+            // Simple validation
+            if (!data.name || !data.email || !data.message) {
+                alert('Harap isi semua field yang diperlukan!');
+                return;
+            }
+            
+            // Show success message
+            alert('Pesan berhasil dikirim! Terima kasih telah menghubungi.');
+            
+            // Reset form
+            this.reset();
+            
+            // In production, you would send data to a server here
+            console.log('Form data:', data);
+        });
+    });
+    
+    // Active nav link on scroll
+    window.addEventListener('scroll', function() {
+        const sections = document.querySelectorAll('section[id]');
+        const scrollPos = window.scrollY + 150;
+        
+        sections.forEach(section => {
+            const sectionTop = section.offsetTop;
+            const sectionHeight = section.clientHeight;
+            const sectionId = section.getAttribute('id');
+            
+            if (scrollPos >= sectionTop && scrollPos < sectionTop + sectionHeight) {
+                document.querySelectorAll('.nav-link.active').forEach(link => {
+                    link.classList.remove('active');
                 });
+                document.querySelector(`.nav-link[href="#${sectionId}"]`)?.classList.add('active');
             }
         });
     });
 });
 
-// Portfolio data
+// Portfolio data (default)
 let portfolioWorks = [
     {
         id: 1,
@@ -78,23 +126,42 @@ let portfolioWorks = [
         tools: "DaVinci Resolve, After Effects",
         image: "https://images.unsplash.com/photo-1611224923853-80b023f02d71?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80",
         date: "2024-02-20"
+    },
+    {
+        id: 3,
+        title: "Color Grading Film Pendek",
+        category: "davinci",
+        description: "Color grading untuk film pendek drama menggunakan DaVinci Resolve.",
+        tools: "DaVinci Resolve Studio",
+        image: "https://images.unsplash.com/photo-1489599809516-9827b6d1cf13?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80",
+        date: "2024-03-10"
     }
 ];
 
 // Load works from localStorage
 function loadPortfolio() {
-    const saved = localStorage.getItem('portfolioWorks');
-    if (saved) {
-        portfolioWorks = JSON.parse(saved);
+    try {
+        const saved = localStorage.getItem('portfolioWorks');
+        if (saved) {
+            portfolioWorks = JSON.parse(saved);
+        }
+    } catch (error) {
+        console.error('Error loading portfolio from localStorage:', error);
+        // Keep default data
     }
     renderPortfolio();
 }
 
 // Save works to localStorage
 function savePortfolio() {
-    localStorage.setItem('portfolioWorks', JSON.stringify(portfolioWorks));
+    try {
+        localStorage.setItem('portfolioWorks', JSON.stringify(portfolioWorks));
+    } catch (error) {
+        console.error('Error saving portfolio to localStorage:', error);
+    }
+    
     // Update admin if exists
-    if (window.updateAdminWorks) {
+    if (typeof window.updateAdminWorks === 'function') {
         window.updateAdminWorks();
     }
 }
@@ -110,8 +177,8 @@ function renderPortfolio(filter = 'all') {
     
     if (filtered.length === 0) {
         grid.innerHTML = `
-            <div class="text-center" style="grid-column: 1/-1; padding: 3rem; color: var(--gray);">
-                <i class="fas fa-images" style="font-size: 3rem; margin-bottom: 1rem;"></i>
+            <div class="empty-portfolio">
+                <i class="fas fa-images"></i>
                 <h3>Belum ada karya di kategori ini</h3>
                 <p>Silakan tambahkan karya melalui dashboard admin</p>
             </div>
@@ -121,13 +188,16 @@ function renderPortfolio(filter = 'all') {
     
     grid.innerHTML = filtered.map(work => `
         <div class="portfolio-item" data-category="${work.category}">
-            <img src="${work.image}" alt="${work.title}" class="portfolio-img">
+            <img src="${work.image}" alt="${work.title}" class="portfolio-img" loading="lazy">
             <div class="portfolio-info">
                 <h3>${work.title}</h3>
                 <p>${work.description}</p>
+                <div class="portfolio-meta">
+                    <span class="portfolio-date"><i class="far fa-calendar"></i> ${formatDate(work.date)}</span>
+                    <span class="portfolio-tools"><i class="fas fa-tools"></i> ${work.tools}</span>
+                </div>
                 <div class="portfolio-tags">
-                    <span class="portfolio-tag">${work.tools}</span>
-                    <span class="portfolio-tag">${getCategoryName(work.category)}</span>
+                    <span class="portfolio-tag ${work.category}">${getCategoryName(work.category)}</span>
                 </div>
             </div>
         </div>
@@ -143,6 +213,11 @@ function getCategoryName(category) {
     return names[category] || category;
 }
 
+function formatDate(dateString) {
+    const options = { year: 'numeric', month: 'long', day: 'numeric' };
+    return new Date(dateString).toLocaleDateString('id-ID', options);
+}
+
 // Add new work (called from admin)
 window.addWork = function(newWork) {
     const maxId = portfolioWorks.length > 0 
@@ -150,36 +225,81 @@ window.addWork = function(newWork) {
         : 0;
     
     newWork.id = maxId + 1;
+    
+    // Add current date if not provided
+    if (!newWork.date) {
+        newWork.date = new Date().toISOString().split('T')[0];
+    }
+    
     portfolioWorks.push(newWork);
     savePortfolio();
-    renderPortfolio();
     
     // Keep filter active
     const activeFilter = document.querySelector('.filter-btn.active');
     if (activeFilter) {
         renderPortfolio(activeFilter.getAttribute('data-filter'));
+    } else {
+        renderPortfolio('all');
     }
+    
+    // Show success message
+    alert(`Karya "${newWork.title}" berhasil ditambahkan!`);
 };
 
 // Remove work (called from admin)
 window.removeWork = function(id) {
-    portfolioWorks = portfolioWorks.filter(w => w.id !== id);
-    savePortfolio();
-    
-    const activeFilter = document.querySelector('.filter-btn.active');
-    if (activeFilter) {
-        renderPortfolio(activeFilter.getAttribute('data-filter'));
+    const work = portfolioWorks.find(w => w.id === id);
+    if (work && confirm(`Apakah Anda yakin ingin menghapus karya "${work.title}"?`)) {
+        portfolioWorks = portfolioWorks.filter(w => w.id !== id);
+        savePortfolio();
+        
+        const activeFilter = document.querySelector('.filter-btn.active');
+        if (activeFilter) {
+            renderPortfolio(activeFilter.getAttribute('data-filter'));
+        } else {
+            renderPortfolio('all');
+        }
+        
+        alert('Karya berhasil dihapus!');
     }
 };
 
 // Get all works (for admin)
 window.getPortfolioWorks = function() {
-    return portfolioWorks;
+    return [...portfolioWorks]; // Return copy
 };
 
 // Update works (for admin)
 window.updateWorks = function(works) {
-    portfolioWorks = works;
+    portfolioWorks = [...works];
     savePortfolio();
-    renderPortfolio();
+    
+    const activeFilter = document.querySelector('.filter-btn.active');
+    if (activeFilter) {
+        renderPortfolio(activeFilter.getAttribute('data-filter'));
+    } else {
+        renderPortfolio('all');
+    }
+    
+    alert('Portofolio berhasil diperbarui!');
 };
+
+// Initialize portfolio on page load
+if (document.getElementById('portfolioGrid')) {
+    loadPortfolio();
+}
+
+// Export for Node.js/CommonJS compatibility
+if (typeof module !== 'undefined' && module.exports) {
+    module.exports = {
+        portfolioWorks,
+        loadPortfolio,
+        savePortfolio,
+        renderPortfolio,
+        getCategoryName,
+        addWork: window.addWork,
+        removeWork: window.removeWork,
+        getPortfolioWorks: window.getPortfolioWorks,
+        updateWorks: window.updateWorks
+    };
+}
