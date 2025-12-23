@@ -1,0 +1,359 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Portofolio Saya - Desain Grafis & Video Editor</title>
+    <meta name="description" content="Portofolio desain grafis dan video editing profesional. Spesialis DaVinci Resolve dan Adobe Creative Suite.">
+    
+    <!-- Favicon -->
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🎨</text></svg>">
+    
+    <!-- Stylesheets -->
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <!-- Header & Navigation -->
+    <header class="header">
+        <div class="container">
+            <nav class="navbar">
+                <a href="index.html" class="logo">
+                    <i class="fas fa-palette"></i> PortofolioKu
+                </a>
+                
+                <button class="menu-toggle" aria-label="Toggle menu">
+                    <i class="fas fa-bars"></i>
+                </button>
+                
+                <ul class="nav-menu">
+                    <li><a href="#home" class="nav-link active">Beranda</a></li>
+                    <li><a href="#about" class="nav-link">Tentang</a></li>
+                    <li><a href="#portfolio" class="nav-link">Portofolio</a></li>
+                    <li><a href="#services" class="nav-link">Layanan</a></li>
+                    <li><a href="#contact" class="nav-link">Kontak</a></li>
+                    <li><a href="#admin" class="nav-link btn-login">
+                        <i class="fas fa-sign-in-alt"></i> Admin
+                    </a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section id="home" class="hero">
+        <div class="container">
+            <div class="hero-content">
+                <p class="tagline">Desain Grafis & Video Editor Professional</p>
+                <h1 class="hero-title">Menciptakan Visual yang <span class="highlight">Bercerita</span></h1>
+                <p class="hero-description">Spesialis dalam DaVinci Resolve, Adobe Creative Suite, dan pembuatan konten visual yang menarik perhatian untuk brand dan bisnis.</p>
+                <div class="hero-buttons">
+                    <a href="#portfolio" class="btn btn-primary">Lihat Karya Saya</a>
+                    <a href="#contact" class="btn btn-secondary">Hubungi Saya</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section id="about" class="section about">
+        <div class="container">
+            <h2 class="section-title">Tentang Saya</h2>
+            <div class="about-grid">
+                <div class="about-image">
+                    <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80" 
+                         alt="Foto profil" 
+                         class="profile-img"
+                         loading="lazy">
+                </div>
+                <div class="about-content">
+                    <h3>Halo, Saya <span class="highlight">Alex Creative</span></h3>
+                    <p>Desainer grafis dan video editor dengan 5+ tahun pengalaman di industri kreatif. Spesialisasi dalam color grading, video editing, dan desain branding menggunakan tools terbaru.</p>
+                    <p>Pernah bekerja dengan berbagai klien dari startup hingga perusahaan besar, menciptakan konten visual yang meningkatkan engagement dan conversion.</p>
+                    
+                    <div class="skills">
+                        <h4>Software yang Dikuasai:</h4>
+                        <div class="skill-tags">
+                            <span class="skill-tag"><i class="fas fa-video"></i> DaVinci Resolve</span>
+                            <span class="skill-tag"><i class="fas fa-film"></i> Adobe Premiere Pro</span>
+                            <span class="skill-tag"><i class="fas fa-paint-brush"></i> Adobe Photoshop</span>
+                            <span class="skill-tag"><i class="fas fa-vector-square"></i> Adobe Illustrator</span>
+                            <span class="skill-tag"><i class="fas fa-magic"></i> Adobe After Effects</span>
+                            <span class="skill-tag"><i class="fas fa-wave-square"></i> Audition</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Portfolio Section -->
+    <section id="portfolio" class="section portfolio">
+        <div class="container">
+            <h2 class="section-title">Portofolio Karya</h2>
+            <p class="section-subtitle">Koleksi karya terbaik dalam desain grafis dan editing video</p>
+            
+            <div class="filter-buttons">
+                <button class="filter-btn active" data-filter="all">Semua Karya</button>
+                <button class="filter-btn" data-filter="design">Desain Grafis</button>
+                <button class="filter-btn" data-filter="video">Video Editing</button>
+                <button class="filter-btn" data-filter="davinci">DaVinci Resolve</button>
+            </div>
+            
+            <div class="portfolio-grid" id="portfolioGrid">
+                <!-- Portfolio items will be loaded by JavaScript -->
+            </div>
+            
+            <div class="text-center mt-4">
+                <button id="adminBtn" class="btn btn-outline">
+                    <i class="fas fa-plus-circle"></i> Tambah Karya (Mode Admin)
+                </button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Services Section -->
+    <section id="services" class="section services">
+        <div class="container">
+            <h2 class="section-title">Layanan yang Ditawarkan</h2>
+            <p class="section-subtitle">Solusi kreatif untuk kebutuhan visual Anda</p>
+            
+            <div class="services-grid">
+                <div class="service-card">
+                    <div class="service-icon">
+                        <i class="fas fa-video"></i>
+                    </div>
+                    <h3>Video Editing</h3>
+                    <p>Editing video profesional untuk YouTube, iklan, company profile dengan kualitas cinematic.</p>
+                    <ul class="service-list">
+                        <li>Video Company Profile</li>
+                        <li>Iklan Produk</li>
+                        <li>Content YouTube</li>
+                    </ul>
+                </div>
+                
+                <div class="service-card">
+                    <div class="service-icon">
+                        <i class="fas fa-palette"></i>
+                    </div>
+                    <h3>Desain Grafis</h3>
+                    <p>Desain logo, branding, sosial media kit, dan materi promosi yang eye-catching.</p>
+                    <ul class="service-list">
+                        <li>Logo & Branding</li>
+                        <li>Social Media Kit</li>
+                        <li>Company Profile</li>
+                    </ul>
+                </div>
+                
+                <div class="service-card">
+                    <div class="service-icon">
+                        <i class="fas fa-magic"></i>
+                    </div>
+                    <h3>Color Grading</h3>
+                    <p>Color correction dan grading profesional untuk video cinematic dan film pendek.</p>
+                    <ul class="service-list">
+                        <li>Color Correction</li>
+                        <li>Cinematic Look</li>
+                        <li>Film Emulation</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section id="contact" class="section contact">
+        <div class="container">
+            <h2 class="section-title">Hubungi Saya</h2>
+            <p class="section-subtitle">Mari berkolaborasi menciptakan karya yang luar biasa</p>
+            
+            <div class="contact-grid">
+                <div class="contact-info">
+                    <div class="contact-item">
+                        <i class="fas fa-envelope"></i>
+                        <div>
+                            <h4>Email</h4>
+                            <p>hello@portofolioku.com</p>
+                        </div>
+                    </div>
+                    
+                    <div class="contact-item">
+                        <i class="fas fa-phone"></i>
+                        <div>
+                            <h4>Telepon/WhatsApp</h4>
+                            <p>+62 812 3456 7890</p>
+                        </div>
+                    </div>
+                    
+                    <div class="contact-item">
+                        <i class="fas fa-map-marker-alt"></i>
+                        <div>
+                            <h4>Lokasi</h4>
+                            <p>Jakarta, Indonesia</p>
+                        </div>
+                    </div>
+                    
+                    <div class="social-links">
+                        <h4>Follow Saya</h4>
+                        <div class="social-icons">
+                            <a href="https://instagram.com" target="_blank" class="social-link">
+                                <i class="fab fa-instagram"></i>
+                            </a>
+                            <a href="https://youtube.com" target="_blank" class="social-link">
+                                <i class="fab fa-youtube"></i>
+                            </a>
+                            <a href="https://behance.net" target="_blank" class="social-link">
+                                <i class="fab fa-behance"></i>
+                            </a>
+                            <a href="https://dribbble.com" target="_blank" class="social-link">
+                                <i class="fab fa-dribbble"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="contact-form">
+                    <form id="contactForm">
+                        <div class="form-group">
+                            <input type="text" id="name" name="name" placeholder="Nama Lengkap" required>
+                            <div class="error-message" id="nameError"></div>
+                        </div>
+                        
+                        <div class="form-group">
+                            <input type="email" id="email" name="email" placeholder="Email" required>
+                            <div class="error-message" id="emailError"></div>
+                        </div>
+                        
+                        <div class="form-group">
+                            <input type="text" id="subject" name="subject" placeholder="Subjek" required>
+                            <div class="error-message" id="subjectError"></div>
+                        </div>
+                        
+                        <div class="form-group">
+                            <textarea id="message" name="message" placeholder="Pesan Anda" rows="5" required></textarea>
+                            <div class="error-message" id="messageError"></div>
+                        </div>
+                        
+                        <button type="submit" class="btn btn-primary">
+                            <i class="fas fa-paper-plane"></i> Kirim Pesan
+                        </button>
+                        
+                        <div id="formSuccess" class="success-message"></div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Admin Panel (Hidden by default) -->
+    <section id="admin" class="section admin-panel" style="display: none;">
+        <div class="container">
+            <h2 class="section-title">Dashboard Admin</h2>
+            
+            <div class="admin-header">
+                <h3>Kelola Portofolio</h3>
+                <button id="backToPortfolio" class="btn btn-outline">
+                    <i class="fas fa-arrow-left"></i> Kembali ke Portofolio
+                </button>
+            </div>
+            
+            <div class="admin-grid">
+                <!-- Add New Work Form -->
+                <div class="admin-form">
+                    <h4>Tambah Karya Baru</h4>
+                    <form id="addWorkForm">
+                        <div class="form-group">
+                            <input type="text" id="workTitle" placeholder="Judul Karya" required>
+                        </div>
+                        
+                        <div class="form-group">
+                            <select id="workCategory" required>
+                                <option value="">Pilih Kategori</option>
+                                <option value="design">Desain Grafis</option>
+                                <option value="video">Video Editing</option>
+                                <option value="davinci">DaVinci Resolve</option>
+                            </select>
+                        </div>
+                        
+                        <div class="form-group">
+                            <textarea id="workDescription" placeholder="Deskripsi Karya" rows="3" required></textarea>
+                        </div>
+                        
+                        <div class="form-group">
+                            <input type="text" id="workTools" placeholder="Tools yang digunakan (contoh: Photoshop, Illustrator)" required>
+                        </div>
+                        
+                        <div class="form-group">
+                            <input type="url" id="workImage" placeholder="URL Gambar (contoh: https://images.unsplash.com/photo-...)" required>
+                            <small class="form-help">Gunakan URL gambar dari Unsplash atau layanan lainnya</small>
+                        </div>
+                        
+                        <button type="submit" class="btn btn-primary">
+                            <i class="fas fa-plus"></i> Tambah Karya
+                        </button>
+                    </form>
+                </div>
+                
+                <!-- Works List -->
+                <div class="works-list">
+                    <h4>Karya yang Ada <span id="worksCount">(0 karya)</span></h4>
+                    <div id="adminWorksList">
+                        <!-- Works will be loaded here -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Scroll to Top Button -->
+    <button id="scrollToTop" class="scroll-to-top">
+        <i class="fas fa-chevron-up"></i>
+    </button>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-logo">
+                    <a href="#home" class="logo">
+                        <i class="fas fa-palette"></i> PortofolioKu
+                    </a>
+                    <p>Menciptakan visual yang menginspirasi dan bercerita untuk meningkatkan brand Anda.</p>
+                </div>
+                
+                <div class="footer-links">
+                    <h4>Menu Cepat</h4>
+                    <ul>
+                        <li><a href="#home">Beranda</a></li>
+                        <li><a href="#about">Tentang</a></li>
+                        <li><a href="#portfolio">Portofolio</a></li>
+                        <li><a href="#services">Layanan</a></li>
+                        <li><a href="#contact">Kontak</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-services">
+                    <h4>Layanan</h4>
+                    <ul>
+                        <li>Video Editing</li>
+                        <li>Desain Grafis</li>
+                        <li>Color Grading</li>
+                        <li>Branding</li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="footer-bottom">
+                <p>&copy; 2024 PortofolioKu. Dibuat dengan <i class="fas fa-heart"></i> dan <i class="fas fa-coffee"></i></p>
+                <p class="footer-note">Semua gambar menggunakan Unsplash. Website ini menggunakan localStorage untuk menyimpan data.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- JavaScript -->
+    <script src="script.js"></script>
+</body>
+</html>

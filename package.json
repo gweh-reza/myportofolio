@@ -1,0 +1,21 @@
+{
+  "name": "portfolio-desainer",
+  "version": "1.0.0",
+  "description": "Portfolio website untuk desainer grafis dan video editor",
+  "main": "index.html",
+  "scripts": {
+    "dev": "npx serve .",
+    "start": "npx serve .",
+    "test": "echo \"No tests specified\""
+  },
+  "keywords": [
+    "portfolio",
+    "designer",
+    "video-editor",
+    "graphic-design"
+  ],
+  "author": "Nama Anda",
+  "license": "MIT",
+  "devDependencies": {},
+  "dependencies": {}
+}
